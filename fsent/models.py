@@ -29,6 +29,15 @@ class Bank(db.Model):
         self.bankname = bankname
         self.icon_url = icon_url
         self.note = note
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'bankname': self.bankname,
+            'icon_url': self.icon_url,
+            'note': self.note,
+        }
+
     
 
 class Consume(db.Model):

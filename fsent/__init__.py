@@ -24,8 +24,10 @@ db = SQLAlchemy(app)
 
 
 from fsent.users.views import users_blueprint
+from fsent.banks.views import banks_blueprint
 # register our blueprints
 app.register_blueprint(users_blueprint)
+app.register_blueprint(banks_blueprint)
 
 
 @app.route('/')

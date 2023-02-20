@@ -1,11 +1,11 @@
-from flask import flash, redirect, render_template, request, \
-    url_for, Blueprint
-
-
+from flask import flash, redirect, render_template, request, url_for, Blueprint, session
 from .forms import LoginForm
 from fsent import app, db
 from fsent.models import User
 from flask_login import LoginManager, login_user, logout_user, login_required
+from fsent.jsonencoder import UserJSONEncoder
+import json
+from fsent.beans import UserBean
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -23,14 +23,26 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             user = User.query.filter_by(username=request.form['username']).first()
-            login_user(user)
+            if user is not None:
+                login_user(user)
+                userbean = UserBean(user.id, user.username, user.email)
+                # userinfo = json.dumps(userbean, cls=UserJSONEncoder)
+                # session["user"] = user
+                # username = user.username
+                # user2 = session.get('user')
+                # userinfo = json.dumps(user)
+                # print(userinfo)
+                # return render_template('login.html', form=form, error=error)
+                return render_template('action_list.html', user=userbean)
+                # return render_template('profile.html', user=user)
+            else:
+                error = 'User is not exist!'
             # if user is not None and bcrypt.check_password_hash(
             #     user.password, request.form['password']
             # ):
             #     login_user(user)
-            #     flash('You were logged in. Go Crazy.')
-            return redirect(url_for('index'))
-
+                flash('You were logged in. Go Crazy.')
+            # return redirect(url_for('index'))
         else:
             error = 'Invalid username or password.'
     return render_template('login.html', form=form, error=error)
@@ -41,7 +53,7 @@ def login():
 def logout():
     logout_user()
     flash('You were logged out.')
-    return redirect(url_for('login'))
+    return redirect(url_for('users.login'))
 
 
 
