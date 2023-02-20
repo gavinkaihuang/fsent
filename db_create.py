@@ -1,5 +1,5 @@
-from codes import app, db
-from codes.models import User, Bank
+from fsent import app, db
+from fsent.models import User, Bank
 
 with app.app_context():
     # create the database and the db table
