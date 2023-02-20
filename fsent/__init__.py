@@ -26,6 +26,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = path
 
 db = SQLAlchemy(app)
 
+from fsent.users.views import users_blueprint
+# register our blueprints
+app.register_blueprint(users_blueprint)
+
+
+
 @app.route('/')
 def index():
     # path = os.getenv('DATABASE_URL', prefix + os.path.join(app.root_path, app.config['DB_NAME']))

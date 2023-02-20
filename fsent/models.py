@@ -1,4 +1,4 @@
-from codes import db
+from fsent import db
 from sqlalchemy import ForeignKey
 
 class User(db.Model):
@@ -42,3 +42,4 @@ class Consume(db.Model):
     month = db.Column(db.Integer, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     note = db.Column(db.String(200))
+    # author_id = db.Column(db.Integer, ForeignKey('users.id'))
