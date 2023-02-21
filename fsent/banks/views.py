@@ -24,6 +24,26 @@ def bank_add():
     db.session.add(bank)
     db.session.commit()
     return jsonify({'message': 'Bank created successfully!'})
+
+@banks_blueprint.route('/bank/delete', methods=['POST'])
+def bank_delete():
+    item = request.get_json()
+    bank = Bank.query.filter_by(id=item['id']).first()
+    if bank is not None:
+        db.session.delete(bank)
+        db.session.commit()
+    return redirect('/bank/list')#mathod 1: redirct to a url
+
+@banks_blueprint.route('/bank/update', methods=['POST'])
+def bank_update():
+    item = request.get_json()
+    bank = Bank.query.filter_by(id=item['id']).first()
+    if bank is not None:
+        bank.bankname = item['bankname']
+        bank.icon_url = item['icon_url']
+        bank.note = item['note']
+        db.session.commit()
+    return redirect(url_for('banks.bank_list'))#mathod 2: redirect to a function
     
     # # user = session.get("user")
     # # user_id = user.id

@@ -15,6 +15,7 @@ users_blueprint = Blueprint(
     template_folder='templates'
 )
 
+@users_blueprint.route('/', methods=['GET', 'POST'])
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -54,8 +55,6 @@ def logout():
     logout_user()
     flash('You were logged out.')
     return redirect(url_for('users.login'))
-
-
 
 
 @login_manager.user_loader

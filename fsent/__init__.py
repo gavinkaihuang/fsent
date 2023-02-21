@@ -30,11 +30,11 @@ app.register_blueprint(users_blueprint)
 app.register_blueprint(banks_blueprint)
 
 
-@app.route('/')
-def index():
-    # path = os.getenv('DATABASE_URL', prefix + os.path.join(app.root_path, app.config['DB_NAME']))
-    return "Hello %s" %path
-    # return "Hello  " 
+# @app.route('/')
+# def index():
+#     # path = os.getenv('DATABASE_URL', prefix + os.path.join(app.root_path, app.config['DB_NAME']))
+#     return "Hello %s" %path
+#     # return "Hello  " 
 
 
 
