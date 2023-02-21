@@ -42,7 +42,7 @@ class Bank(db.Model):
             'id': self.id,
             'bankname': self.bankname,
             'icon_url': self.icon_url,
-            'note': self.note,
+            'note': self.note
         }
 
     
@@ -60,3 +60,17 @@ class Consume(db.Model):
     year = db.Column(db.Integer, nullable=False)
     note = db.Column(db.String(200))
     # author_id = db.Column(db.Integer, ForeignKey('users.id'))
+
+
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'user_id': self.user_id,
+        'bank_id': self.bank_id,
+        'price': self.price,
+        'account_date': self.account_date,
+        'finish_date': self.finish_date,
+        'month': self.month,
+        'year': self.year,
+        'note': self.note
+    }
