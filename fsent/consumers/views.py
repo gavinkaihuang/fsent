@@ -45,7 +45,8 @@ def consumer_add():
 
     db.session.add(consume)
     db.session.commit()
-    return jsonify({'message': 'Bank created successfully!'})
+    # return jsonify({'message': 'Bank created successfully!'})
+    return jsonify({"status":"200", "msg": "Consumer created successfully!"})
 
 
 @consumers_blueprint.route('/consumer/delete', methods=['POST'])
@@ -56,7 +57,8 @@ def consumer_delete():
     if consumer is not None:
         db.session.delete(consumer)
         db.session.commit()
-    return redirect('/consumer/list')#mathod 1: redirct to a url
+    # return redirect('/consumer/list')#mathod 1: redirct to a url
+    return jsonify({"status":"200", "msg": "Consumer delete successfully!"})
 
 
 
@@ -77,4 +79,5 @@ def consumer_update():
 
         db.session.commit()
     # return redirect('/consumer/list')#mathod 2: redirect to a function
-    return jsonify(consumer.to_dict())
+    # return jsonify(consumer.to_dict())
+    return jsonify({"status":"200", "msg": "", "data" : consumer.to_dict()})

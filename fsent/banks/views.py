@@ -17,7 +17,8 @@ def bank_list():
     # user_id = user.id
     banks = Bank.query.all()
     # return jsonify(banks)
-    return jsonify([b.to_dict() for b in banks])
+    # return jsonify([b.to_dict() for b in banks])
+    return jsonify({"status":"200", "msg": "", "data" : [b.to_dict() for b in banks]})
 
 @banks_blueprint.route('/bank/add', methods=['POST'])
 # @login_required
@@ -26,7 +27,8 @@ def bank_add():
     bank = Bank(bankname=item['bankname'], icon_url=item['icon_url'], note=item['note'])
     db.session.add(bank)
     db.session.commit()
-    return jsonify({'message': 'Bank created successfully!'})
+    # return jsonify({'message': 'Bank created successfully!'})
+    return jsonify({"status":"200", "msg": "Bank created successfully!"})
 
 @banks_blueprint.route('/bank/delete', methods=['POST'])
 # @login_required
@@ -36,7 +38,8 @@ def bank_delete():
     if bank is not None:
         db.session.delete(bank)
         db.session.commit()
-    return redirect('/bank/list')#mathod 1: redirct to a url
+    # return redirect('/bank/list')#mathod 1: redirct to a url
+    return jsonify({"status":"200", "msg": "Bank delete successfully!"})
 
 @banks_blueprint.route('/bank/update', methods=['POST'])
 # @login_required
@@ -48,4 +51,5 @@ def bank_update():
         bank.icon_url = item['icon_url']
         bank.note = item['note']
         db.session.commit()
-    return redirect(url_for('banks.bank_list'))#mathod 2: redirect to a function
+    # return redirect(url_for('banks.bank_list'))#mathod 2: redirect to a function
+    return jsonify({"status":"200", "msg": "", "data" : bank.to_dict()})
