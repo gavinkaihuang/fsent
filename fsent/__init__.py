@@ -17,9 +17,14 @@ else:
 app = Flask(__name__)
 app.config.from_object(config)
 
-# app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret string')
-path = os.getenv('DATABASE_URL', prefix + os.path.join(app.root_path, app.config['DB_NAME']))
-app.config['SQLALCHEMY_DATABASE_URI'] = path
+# 1, use sqlite database
+# path = os.getenv('DATABASE_URL', prefix + os.path.join(app.root_path, app.config['DB_NAME']))
+# app.config['SQLALCHEMY_DATABASE_URI'] = path
+
+# 2, use mysql database
+# 通过修改以下代码来操作不同的SQL比写原生SQL简单很多 --》通过ORM可以实现从底层更改使用的SQL
+app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI']
+
 db = SQLAlchemy(app)
 
 
