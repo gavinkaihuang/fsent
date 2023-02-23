@@ -1,0 +1,16 @@
+server {
+    # 监听端口
+	listen 80;
+	# 可以是ip地址或域名
+	server_name localhost;
+	# 动态请求nginx转发给uwsgi
+	location / {
+		# 转发端口必须和uwsgi配置文件中socket端口一致
+		uwsgi_pass      127.0.0.1:8001; 
+        nclude uwsgi_params; 
+	}
+	# 静态资源所在位置,nginx自己处理
+	location /static {
+		alias /var/www/online/static/;
+	}
+}
