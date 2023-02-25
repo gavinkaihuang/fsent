@@ -18,12 +18,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username) 
     
-        def to_dict(self):
-            return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email
-        }
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'username': self.username,
+        'email': self.email
+    }
     
 class Bank(db.Model):
     __tablename__ = "banks"
