@@ -49,6 +49,24 @@ def login():
     return render_template('login.html', form=form, error=error)
 
 
+@users_blueprint.route('/loginj', methods=['GET', 'POST'])
+def loginJ():
+    error = None
+    form = LoginForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=request.form['username']).first()
+            if user is not None:
+                login_user(user)
+                userbean = UserBean(user.id, user.username, user.email)
+                return jsonify({"status":"200", "msg": "", "data" : userbean.to_dict})
+            else:
+                error = 'User is not exist!'
+        else:
+            error = 'Invalid username or password.'
+    return jsonify({"status":"400", "msg": error})
+
+
 @users_blueprint.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
