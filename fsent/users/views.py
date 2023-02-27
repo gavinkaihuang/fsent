@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, url_for, Blueprint, session
+from flask import flash, redirect, render_template, request, url_for, Blueprint, session, jsonify
 from .forms import LoginForm
 from fsent import app, db
 from fsent.models import User
@@ -16,8 +16,8 @@ users_blueprint = Blueprint(
 )
 
 @users_blueprint.route('/', methods=['GET', 'POST'])
-@users_blueprint.route('/login', methods=['GET', 'POST'])
-def login():
+@users_blueprint.route('/ulogin', methods=['GET', 'POST'])
+def ulogin():
     error = None
     form = LoginForm(request.form)
     # if form.validate_on_submit():
@@ -27,28 +27,16 @@ def login():
             if user is not None:
                 login_user(user)
                 userbean = UserBean(user.id, user.username, user.email)
-                # userinfo = json.dumps(userbean, cls=UserJSONEncoder)
-                # session["user"] = user
-                # username = user.username
-                # user2 = session.get('user')
-                # userinfo = json.dumps(user)
-                # print(userinfo)
-                # return render_template('login.html', form=form, error=error)
                 return render_template('action_list.html', user=userbean)
-                # return render_template('profile.html', user=user)
             else:
                 error = 'User is not exist!'
-            # if user is not None and bcrypt.check_password_hash(
-            #     user.password, request.form['password']
-            # ):
-            #     login_user(user)
                 flash('You were logged in. Go Crazy.')
-            # return redirect(url_for('index'))
         else:
             error = 'Invalid username or password.'
     return render_template('login.html', form=form, error=error)
 
 
+<<<<<<< HEAD
 @users_blueprint.route('/loginj', methods=['GET', 'POST'])
 def loginJ():
     error = None
@@ -67,12 +55,13 @@ def loginJ():
     return jsonify({"status":"400", "msg": error})
 
 
-@users_blueprint.route('/logout', methods=['GET', 'POST'])
+
+@users_blueprint.route('/ulogout', methods=['GET', 'POST'])
 @login_required
-def logout():
+def ulogout():
     logout_user()
     flash('You were logged out.')
-    return redirect(url_for('users.login'))
+    return redirect(url_for('users.ulogin'))
 
 
 @login_manager.user_loader
@@ -81,17 +70,38 @@ def load_user(username):
     return User.query.get(username)
 
 
-# @users_blueprint.route('/register/', methods=['GET', 'POST'])
-# def register():
-#     form = RegisterForm()
-#     if form.validate_on_submit():
-#         user = User(
-#             name=form.username.data,
-#             email=form.email.data,
-#             password=form.password.data
-#         )
-#         db.session.add(user)
-#         db.session.commit()
-#         login_user(user)
-#         return redirect(url_for('home.home'))
-#     return render_template('register.html', form=form)
+@users_blueprint.route('/login', methods=['GET', 'POST'])
+def login():
+    item = request.get_json()
+    user = User.query.filter_by(username=item['username']).first()
+    if user is None:
+        error = 'User is not exist!'
+        return jsonify({"status":"400", "msg": error})
+    elif (user.password != item['password']):
+        error = 'Invalid username or password.'
+        return jsonify({"status":"400", "msg": error})
+    else:
+        return jsonify({"status":"200", "msg": "", "data" : user.to_dict()})
+
+
+    # error = None
+    # form = LoginForm(request.form)
+    # # if form.validate_on_submit():
+    # if request.method == 'POST':
+    #     if form.validate_on_submit():
+    #         user = User.query.filter_by(username=request.form['username']).first()
+    #         if user is not None:
+    #             login_user(user)
+    #             userbean = UserBean(user.id, user.username, user.email)
+    #             return jsonify({"status":"200", "msg": "", "data" : userbean.to_dict()})
+    #         else:
+    #             error = 'User is not exist!'
+    #     else:
+    #         error = 'Invalid username or password.'
+    # return jsonify({"status":"400", "msg": error})
+
+@users_blueprint.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({"status":"200", "msg": "User logout!"})
