@@ -7,12 +7,12 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
-# # SQLite URI compatible
-WIN = sys.platform.startswith('win')
-if WIN:
-    prefix = 'sqlite:///'
-else:
-    prefix = 'sqlite:////'
+# # # SQLite URI compatible
+# WIN = sys.platform.startswith('win')
+# if WIN:
+#     prefix = 'sqlite:///'
+# else:
+#     prefix = 'sqlite:////'
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -23,7 +23,8 @@ app.config.from_object(config)
 
 # 2, use mysql database
 # 通过修改以下代码来操作不同的SQL比写原生SQL简单很多 --》通过ORM可以实现从底层更改使用的SQL
-app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI']
+DB_CONNECT = config.getDBConnectURL(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_CONNECT
 
 db = SQLAlchemy(app)
 

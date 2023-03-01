@@ -28,11 +28,13 @@ class User(UserMixin, db.Model):
 class Bank(db.Model):
     __tablename__ = "banks"
     id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10))
     bankname = db.Column(db.String(64), index=True, unique=True)
     icon_url = db.Column(db.String(200))
     note = db.Column(db.String(200))
 
-    def __init__(self, bankname, icon_url, note):
+    def __init__(self, code, bankname, icon_url, note):
+        self.code = code
         self.bankname = bankname
         self.icon_url = icon_url
         self.note = note
@@ -40,6 +42,7 @@ class Bank(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'code': self.code,
             'bankname': self.bankname,
             'icon_url': self.icon_url,
             'note': self.note

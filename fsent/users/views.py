@@ -36,7 +36,6 @@ def ulogin():
     return render_template('login.html', form=form, error=error)
 
 
-<<<<<<< HEAD
 @users_blueprint.route('/loginj', methods=['GET', 'POST'])
 def loginJ():
     error = None
