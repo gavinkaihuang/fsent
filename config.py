@@ -12,16 +12,10 @@ DB_NAME = 'sqlite_sent.db'
 
 SQLALCHEMY_TRACK_MODIFICATIONS = 'False'
 
-USE_DB = 3  #1 USE mysql local, 2 USE mysql , 2 USE SQLITE
+USE_DB = 3  #1 USE mysql local, 2 USE mysql , 3 USE SQLITE
 
 DEBUG = True
 
-# HOSTNAME = ""
-# PORT = 3306
-# USERNAME = ""
-# PASSWORD = ""
-# DATABASE = ""
-# DATABASE = ""
 
 # # SQLite URI compatible
 WIN = sys.platform.startswith('win')
@@ -37,7 +31,6 @@ def initNasMysql():
    PORT = 3306
    USERNAME = "root"
    PASSWORD = "commonuse"
-   DATABASE = "datacheck"
    DATABASE = "fsentdb"
    return f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOSTNAME}:{PORT}/{DATABASE}?charset=utf8mb4"
 
