@@ -63,7 +63,7 @@ def bank_search():
     item = request.get_json()
     content = item['content']
 
-    openai.api_key = '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'
+    openai.api_key = 'NONE'
 
     response = openai.Completion.create(
         model='text-davinci-003',
