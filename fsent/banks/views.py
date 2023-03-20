@@ -3,6 +3,7 @@ from fsent import app, db
 from fsent.models import Bank
 from flask_login import login_required
 import json
+import openai
 
 
 banks_blueprint = Blueprint(
@@ -53,3 +54,33 @@ def bank_update():
         db.session.commit()
     # return redirect(url_for('banks.bank_list'))#mathod 2: redirect to a function
     return jsonify({"status":"200", "msg": "", "data" : bank.to_dict()})
+
+
+
+@banks_blueprint.route('/bank/search', methods=['GET', 'POST'])
+# @login_required
+def bank_search():
+    item = request.get_json()
+    content = item['content']
+
+    openai.api_key = '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'
+
+    response = openai.Completion.create(
+        model='text-davinci-003',
+        prompt=content,
+        temperature=1,
+        max_tokens=2000,
+        top_p=1.0,
+        frequency_penalty=0.0,
+        presence_penalty=0.0,
+    )
+
+    # print(response.choices[0].text)
+    
+    
+    # # return redirect(url_for('banks.bank_list'))#mathod 2: redirect to a function
+    return jsonify({"status":"200", "msg": "", "data" : response.choices[0].text})
+    # banks = Bank.query.all()
+    # # return jsonify(banks)
+    # # return jsonify([b.to_dict() for b in banks])
+    # return jsonify({"status":"200", "msg": "", "data" : [b.to_dict() for b in banks]})
