@@ -38,6 +38,12 @@ $: uwsgi --http 127.0.0.1:5000 --module fsent:app
 #url use head path /fsent
 $: uwsgi --http 127.0.0.1:8000 -s /tmp/fsent.sock --manage-script-name --mount /fsent=fsent:app
 
+in ubuntu:
+$: uwsgi --http-socket 127.0.0.1:5000 --module fsent:app
+
+$: uwsgi --http-socket 127.0.0.1:8000 -s /tmp/fsent.sock --manage-script-name --mount /fsent=fsent:app
+
+
 7, use ini file to restart project
 uwsgi --ini uwsgi.ini
 uwsgi --reload uwsgi.ini
@@ -47,7 +53,11 @@ uwsgi --stop uwsgi.ini
 start: nginx
 stop: nginx -s stop
 
+in osx:
 path: /usr/local/etc/nginx
+
+in ubuntu:
+path: /etc/nginx/sites-enabled/default
 
 config content like this:
 ......

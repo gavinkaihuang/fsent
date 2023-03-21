@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Do you have something to ask me ?</h1>
+<br>
+<form  id="my-form" class="form-signin" role="form" method="post" action="/ai/search" >
+  {{ form.csrf_token }}
+  <p>
+    {{ form.question(placeholder="question") }}
+    <span class="error">
+      {% if form.question.errors %}
+        {% for error in form.question.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+
+  <button class="btn btn-sm btn-success" type="submit">Ask</button>
+</form>
+
+{% endblock %}
+
+<!-- 
+<script>
+  const form = document.querySelector('#my-form');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const jsonObject = {};
+    for (const [key, value] of formData.entries()) {
+      jsonObject[key] = value;
+    }
+    console.log(jsonObject);
+  });
+</script> -->
